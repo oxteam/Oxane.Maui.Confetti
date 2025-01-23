@@ -1,7 +1,7 @@
-using Particle.Maui.Particles;
+using Oxane.Maui.Confetti.Particles;
 using SkiaSharp;
 
-namespace Particle.Maui.ParticleGenerators
+namespace Oxane.Maui.Confetti.ParticleGenerators
 {
     /// <summary>
     /// Common contract for all classes that generate instances of (subclasses of) <see cref="ParticleBase"/>

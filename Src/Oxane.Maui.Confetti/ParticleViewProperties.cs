@@ -1,11 +1,9 @@
-using System.Linq;
-using Particle.Maui.ParticleGenerators;
-using Particle.Maui.Particles;
+using Oxane.Maui.Confetti.ParticleGenerators;
+using Oxane.Maui.Confetti.Particles;
 using SkiaSharp;
 using SkiaSharp.Views.Maui;
-using SkiaSharp.Views.Maui.Controls;
 
-namespace Particle.Maui
+namespace Oxane.Maui.Confetti
 {
     public partial class ParticleView
     {
@@ -79,7 +77,7 @@ namespace Particle.Maui
             {
                 _debugInfoPaint.Color = DebugInfoColor.ToSKColor();
             }
-            else if(propertyName == FallingParticlesPerSecondProperty.PropertyName)
+            else if (propertyName == FallingParticlesPerSecondProperty.PropertyName)
             {
                 _fallingParticlesPerSecond = FallingParticlesPerSecond;
             }
@@ -97,7 +95,7 @@ namespace Particle.Maui
         /// </summary>
         public bool IsActive
         {
-            get => (bool) GetValue(IsActiveProperty);
+            get => (bool)GetValue(IsActiveProperty);
             set => SetValue(IsActiveProperty, value);
         }
 
@@ -113,7 +111,7 @@ namespace Particle.Maui
         /// </summary>
         public bool IsRunning
         {
-            get => (bool) GetValue(IsRunningProperty);
+            get => (bool)GetValue(IsRunningProperty);
             set => SetValue(IsRunningProperty, value);
         }
 
@@ -129,7 +127,7 @@ namespace Particle.Maui
         /// </summary>
         public bool HasFallingParticles
         {
-            get => (bool) GetValue(HasFallingParticlesProperty);
+            get => (bool)GetValue(HasFallingParticlesProperty);
             set => SetValue(HasFallingParticlesProperty, value);
         }
 
@@ -145,7 +143,7 @@ namespace Particle.Maui
         /// </summary>
         public float FallingParticlesPerSecond
         {
-            get => (float) GetValue(FallingParticlesPerSecondProperty);
+            get => (float)GetValue(FallingParticlesPerSecondProperty);
             set => SetValue(FallingParticlesPerSecondProperty, value);
         }
 
@@ -161,7 +159,7 @@ namespace Particle.Maui
         /// </summary>
         public bool AddParticlesOnTap
         {
-            get => (bool) GetValue(AddParticlesOnTapProperty);
+            get => (bool)GetValue(AddParticlesOnTapProperty);
             set => SetValue(AddParticlesOnTapProperty, value);
         }
 
@@ -177,7 +175,7 @@ namespace Particle.Maui
         /// </summary>
         public int TapParticleCount
         {
-            get => (int) GetValue(TapParticleCountProperty);
+            get => (int)GetValue(TapParticleCountProperty);
             set => SetValue(TapParticleCountProperty, value);
         }
 
@@ -194,7 +192,7 @@ namespace Particle.Maui
         /// </summary>
         public bool AddParticlesOnDrag
         {
-            get => (bool) GetValue(AddParticlesOnDragProperty);
+            get => (bool)GetValue(AddParticlesOnDragProperty);
             set => SetValue(AddParticlesOnDragProperty, value);
         }
 
@@ -210,7 +208,7 @@ namespace Particle.Maui
         /// </summary>
         public int DragParticleCount
         {
-            get => (int) GetValue(DragParticleCountProperty);
+            get => (int)GetValue(DragParticleCountProperty);
             set => SetValue(DragParticleCountProperty, value);
         }
 
@@ -226,7 +224,7 @@ namespace Particle.Maui
         /// </summary>
         public ParticleMoveType DragParticleMoveType
         {
-            get => (ParticleMoveType) GetValue(DragParticleMoveTypeProperty);
+            get => (ParticleMoveType)GetValue(DragParticleMoveTypeProperty);
             set => SetValue(DragParticleMoveTypeProperty, value);
         }
 
@@ -249,7 +247,7 @@ namespace Particle.Maui
 
         public Color[] ParticleColors
         {
-            get => (Color[]) GetValue(ParticleColorsProperty);
+            get => (Color[])GetValue(ParticleColorsProperty);
             set => SetValue(ParticleColorsProperty, value);
         }
 
@@ -257,7 +255,7 @@ namespace Particle.Maui
             nameof(UseSKGLView),
             typeof(bool),
             typeof(ParticleView),
-            Device.RuntimePlatform == Device.Android
+            DeviceInfo.Platform == DevicePlatform.Android
         );
 
         /// <summary>
@@ -265,7 +263,7 @@ namespace Particle.Maui
         /// </summary>
         public bool UseSKGLView
         {
-            get => (bool) GetValue(UseSKGLViewProperty);
+            get => (bool)GetValue(UseSKGLViewProperty);
             set => SetValue(UseSKGLViewProperty, value);
         }
 
@@ -282,7 +280,7 @@ namespace Particle.Maui
         /// </summary>
         public bool ShowDebugInfo
         {
-            get => (bool) GetValue(ShowDebugInfoProperty);
+            get => (bool)GetValue(ShowDebugInfoProperty);
             set => SetValue(ShowDebugInfoProperty, value);
         }
 
@@ -298,7 +296,7 @@ namespace Particle.Maui
         /// </summary>
         public Color DebugInfoColor
         {
-            get => (Color) GetValue(DebugInfoColorProperty);
+            get => (Color)GetValue(DebugInfoColorProperty);
             set => SetValue(DebugInfoColorProperty, value);
         }
     }

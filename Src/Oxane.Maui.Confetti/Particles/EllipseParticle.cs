@@ -1,6 +1,6 @@
 using SkiaSharp;
 
-namespace Particle.Maui.Particles
+namespace Oxane.Maui.Confetti.Particles
 {
     public class EllipseParticle : RectParticle
     {

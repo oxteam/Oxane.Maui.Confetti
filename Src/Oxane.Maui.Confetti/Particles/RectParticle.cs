@@ -1,10 +1,10 @@
 using SkiaSharp;
 
-namespace Particle.Maui.Particles
+namespace Oxane.Maui.Confetti.Particles
 {
     public class RectParticle : ParticleBase
     {
-        protected readonly SKPaint Paint;
+        protected readonly new SKPaint Paint;
         private float _blurFactor;
 
         public RectParticle(SKColor color,

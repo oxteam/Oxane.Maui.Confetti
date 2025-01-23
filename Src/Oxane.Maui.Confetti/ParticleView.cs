@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using Particle.Maui.ParticleGenerators;
-using Particle.Maui.ParticleRequester;
-using Particle.Maui.Particles;
+using Oxane.Maui.Confetti.ParticleGenerators;
+using Oxane.Maui.Confetti.ParticleRequester;
+using Oxane.Maui.Confetti.Particles;
 using SkiaSharp;
 using SkiaSharp.Views.Maui;
 using SkiaSharp.Views.Maui.Controls;
+using System.Diagnostics;
 
-namespace Particle.Maui
+namespace Oxane.Maui.Confetti
 {
     /// <summary>
     /// Displays particles. Supports particles falling from the top edge to the bottom edge or radiating from a touch point.
@@ -35,11 +31,15 @@ namespace Particle.Maui
         private long _onPaintPreviousTotalMillis = 0L;
         private long _updateParticlesDurationMillis = 0L;
 
-        private readonly SKPaint _debugInfoPaint = new SKPaint()
+        private readonly SKPaint _debugInfoPaint = new()
         {
             Color = SKColors.LightGreen,
-            TextSize = 32,
             Style = SKPaintStyle.StrokeAndFill
+        };
+
+        private readonly SKFont _debugInfoFont = new()
+        {
+            Size = 32
         };
 
         private bool _showDebugInfo;
@@ -48,7 +48,7 @@ namespace Particle.Maui
         private Stopwatch _stopwatch;
         private long _totalElapsedMillis;
         private List<ParticleBase> _particles;
-        private readonly object _particleLock = new object();
+        private readonly object _particleLock = new();
         private float _fallingParticlesPerSecond;
         private RateBasedParticleRequester _particleRequester;
 
@@ -69,7 +69,7 @@ namespace Particle.Maui
             }
             _fallingParticlesPerSecond = FallingParticlesPerSecond;
             _particleRequester = new RateBasedParticleRequester();
-            
+
             TouchParticleGenerator = new SimpleParticleGenerator();
             FallingParticleGenerator = new FallingParticleGenerator();
 
@@ -101,19 +101,18 @@ namespace Particle.Maui
             //else
             //{
             var skCanvasView = new SKCanvasView();
+            _getCanvasSize = () => skCanvasView.CanvasSize;
 
-                _getCanvasSize = () => skCanvasView.CanvasSize;
+            _invalidateSurface = () => skCanvasView.InvalidateSurface();
 
-                _invalidateSurface = () => skCanvasView.InvalidateSurface();
+            _getEnableTouchEvents = () => skCanvasView.EnableTouchEvents;
+            _setEnableTouchEvents = enableTouchEvents => skCanvasView.EnableTouchEvents = enableTouchEvents;
 
-                _getEnableTouchEvents = () => skCanvasView.EnableTouchEvents;
-                _setEnableTouchEvents = enableTouchEvents => skCanvasView.EnableTouchEvents = enableTouchEvents;
+            _addTouchHandler = touchHandler => skCanvasView.Touch += touchHandler;
+            _removeTouchHandler = touchHandler => skCanvasView.Touch -= touchHandler;
 
-                _addTouchHandler = touchHandler => skCanvasView.Touch += touchHandler;
-                _removeTouchHandler = touchHandler => skCanvasView.Touch -= touchHandler;
-
-                skCanvasView.PaintSurface += OnPaintSurface;
-                Content = skCanvasView;
+            skCanvasView.PaintSurface += OnPaintSurface;
+            Content = skCanvasView;
             //}
         }
 
@@ -178,15 +177,15 @@ namespace Particle.Maui
                 {
                     case ParticleMoveType.Fall:
                         _particles.AddRange(FallingParticleGenerator.Generate(
-                            new[] {e.Location,},
-                            (int) Math.Ceiling(DragParticleCount / 60.0d),
+                            new[] { e.Location, },
+                            (int)Math.Ceiling(DragParticleCount / 60.0d),
                             _convertedConfettiColors
                         ));
                         break;
                     case ParticleMoveType.Radiate:
                         _particles.AddRange(TouchParticleGenerator.Generate(
-                            new[] {e.Location,},
-                            (int) Math.Ceiling(DragParticleCount / 60.0d),
+                            new[] { e.Location, },
+                            (int)Math.Ceiling(DragParticleCount / 60.0d),
                             _convertedConfettiColors
                         ));
                         break;
@@ -206,7 +205,7 @@ namespace Particle.Maui
             lock (_particleLock)
             {
                 _particles.AddRange(TouchParticleGenerator.Generate(
-                    new[] {e.Location},
+                    new[] { e.Location },
                     TapParticleCount,
                     _convertedConfettiColors
                 ));
@@ -217,7 +216,7 @@ namespace Particle.Maui
         {
             _stopwatch.Start();
             _particleRequester.Reset();
-            
+
             var anim = new Animation(d =>
             {
                 _totalElapsedMillis = _stopwatch.ElapsedMilliseconds;
@@ -249,7 +248,7 @@ namespace Particle.Maui
                 }
 
                 // Update the current particles
-                var scale = new SKSize((float) (canvasSize.Width / this.Width), (float) (canvasSize.Height / this.Height));
+                var scale = new SKSize((float)(canvasSize.Width / this.Width), (float)(canvasSize.Height / this.Height));
                 foreach (var particle in _particles)
                 {
                     particle.Update(_totalElapsedMillis, scale);
@@ -260,7 +259,7 @@ namespace Particle.Maui
                 // Compute particle update duration
                 Interlocked.Exchange(ref _updateParticlesDurationMillis, _stopwatch.ElapsedMilliseconds - _totalElapsedMillis);
 
-                Device.BeginInvokeOnMainThread(() => _invalidateSurface());
+                MainThread.BeginInvokeOnMainThread(() => _invalidateSurface());
             });
             anim.Commit(this, ParticleAnimationName, length: 1000u, rate: AnimationRateMillis, repeat: () => IsActive);
         }
@@ -313,17 +312,19 @@ namespace Particle.Maui
             if (_showDebugInfo)
             {
                 var canvasSize = CanvasSize;
-                var scale = (float) (canvasSize.Width / this.Width);
-                _debugInfoPaint.TextSize = 24.0f * scale;
+                var scale = (float)(canvasSize.Width / this.Width);
+                _debugInfoFont.Size = 24.0f * scale;
 
                 canvas.DrawText($"Frame painted every {_stopwatch.ElapsedMilliseconds - _onPaintPreviousTotalMillis:F1}ms",
                     canvasSize.Width * 0.05f,
                     canvasSize.Height * 0.05f,
+                    _debugInfoFont,
                     _debugInfoPaint);
 
                 canvas.DrawText($"Particles updated every {Interlocked.Read(ref _updateParticlesDurationMillis):F1}ms",
                     canvasSize.Width * 0.05f,
-                    canvasSize.Height * 0.05f + (_debugInfoPaint.FontMetrics.XHeight * scale),
+                    canvasSize.Height * 0.05f + (_debugInfoFont.Metrics.XHeight * scale),
+                    _debugInfoFont,
                     _debugInfoPaint);
 
                 _onPaintPreviousTotalMillis = _stopwatch.ElapsedMilliseconds;

@@ -136,6 +136,7 @@ publish/
 *.azurePubxml
 
 # NuGet Packages Directory
+local.nuget/
 packages/
 *.nuget.targets
 *.lock.json

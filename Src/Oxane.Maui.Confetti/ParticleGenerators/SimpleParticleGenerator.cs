@@ -1,8 +1,7 @@
-using System;
-using Particle.Maui.Particles;
+using Oxane.Maui.Confetti.Particles;
 using SkiaSharp;
 
-namespace Particle.Maui.ParticleGenerators
+namespace Oxane.Maui.Confetti.ParticleGenerators
 {
     public class SimpleParticleGenerator : IParticleGenerator
     {

@@ -1,7 +1,6 @@
-using System;
 using SkiaSharp;
 
-namespace Particle.Maui.Particles
+namespace Oxane.Maui.Confetti.Particles
 {
     public abstract class ParticleBase
     {
@@ -10,12 +9,12 @@ namespace Particle.Maui.Particles
 
         private long _absoluteElapsedMillisPrevious = 0;
         private long _internalAbsoluteMillis = 0;
-        
+
         // Caching these matrices speeds up the Update() function a lot
-        private SKMatrix44 _totalRotationMatrix = new SKMatrix44();
-        private SKMatrix44 _xAxisRotationMatrix = new SKMatrix44();
-        private SKMatrix44 _yAxisRotationMatrix = new SKMatrix44();
-        private SKMatrix44 _zAxisRotationMatrix = new SKMatrix44();
+        private SKMatrix44 _totalRotationMatrix = new();
+        private SKMatrix44 _xAxisRotationMatrix = new();
+        private SKMatrix44 _yAxisRotationMatrix = new();
+        private SKMatrix44 _zAxisRotationMatrix = new();
 
         public ParticleBase(SKPoint3 rotationSpeed, float translationSpeed, float direction, SKPoint3 orientation, SKPoint position, SKSize size)
         {
@@ -70,8 +69,8 @@ namespace Particle.Maui.Particles
             var angle = Direction * deg2radFactor;
             Position = InitialPosition + new SKPoint
             {
-                X = (float) (dist * Math.Cos(angle)),
-                Y = (float) (dist * Math.Sin(angle))
+                X = (float)(dist * Math.Cos(angle)),
+                Y = (float)(dist * Math.Sin(angle))
             };
 
             TransformationMatrix = SKMatrix.CreateTranslation(-Position.X, -Position.Y);
@@ -87,22 +86,22 @@ namespace Particle.Maui.Particles
                 Z = _internalAbsoluteMillis * 0.001f * RotationSpeed.Z
             };
 
-            _totalRotationMatrix.SetIdentity();
-            
-            _xAxisRotationMatrix.SetRotationAboutDegrees(1, 0, 0, Orientation.X);
+            _totalRotationMatrix = SKMatrix44.CreateIdentity();
+
+            _xAxisRotationMatrix = SKMatrix44.CreateRotationDegrees(1, 0, 0, Orientation.X);
             _totalRotationMatrix.PostConcat(_xAxisRotationMatrix);
-            
-            _yAxisRotationMatrix.SetRotationAboutDegrees(0, 1, 0, Orientation.Y);
+
+            _yAxisRotationMatrix = SKMatrix44.CreateRotationDegrees(0, 1, 0, Orientation.Y);
             _totalRotationMatrix.PostConcat(_yAxisRotationMatrix);
-            
-            _zAxisRotationMatrix.SetRotationAboutDegrees(0, 0, 1, Orientation.Z);
+
+            _zAxisRotationMatrix = SKMatrix44.CreateRotationDegrees(0, 0, 1, Orientation.Z);
             _totalRotationMatrix.PostConcat(_zAxisRotationMatrix);
-            
+
             TransformationMatrix = TransformationMatrix.PostConcat(_totalRotationMatrix.Matrix);
 
             // Translate back
             TransformationMatrix = TransformationMatrix.PostConcat(SKMatrix.CreateTranslation(Position.X, Position.Y));
-            
+
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-namespace Particle.Maui.Particles
+namespace Oxane.Maui.Confetti.Particles
 {
     public enum ParticleMoveType
     {

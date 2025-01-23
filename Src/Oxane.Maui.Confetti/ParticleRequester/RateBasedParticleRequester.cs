@@ -1,6 +1,4 @@
-using System;
-
-namespace Particle.Maui.ParticleRequester
+namespace Oxane.Maui.Confetti.ParticleRequester
 {
     public class RateBasedParticleRequester
     {
@@ -18,7 +16,7 @@ namespace Particle.Maui.ParticleRequester
 
                 _accumulatedParticlesToRequest = Math.Max(_accumulatedParticlesToRequest - integerPart, 0);
 
-                return (int) integerPart;
+                return (int)integerPart;
             }
             else
             {
