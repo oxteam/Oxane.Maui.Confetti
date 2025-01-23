@@ -1,7 +1,7 @@
-# Particle.Maui
-A MAUI library to display particles e.g. confetti. Should work on all platforms. Ported from the Xamarin Forms version of this library: https://github.com/mariusmuntean/Particle.Forms
+# Oxane.Maui.Confetti
+A MAUI library to display particles e.g. confetti. Should work on all platforms. Forked from legacy Particle.Maui package : https://github.com/jmbowman1107/Particle.Maui
 
-Get it from NuGet [![Nuget](https://img.shields.io/nuget/vpre/particle.forms)](https://www.nuget.org/packages/particle.maui/)
+Get it from NuGet [![Nuget](https://img.shields.io/nuget/vpre/oxane.maui.confetti)](https://www.nuget.org/packages/oxane.maui.confetti/)
 
 ## Preview
 <img src="Media/sample.gif" width="640px" />
