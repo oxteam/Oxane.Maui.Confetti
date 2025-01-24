@@ -43,8 +43,8 @@ These properties aren't bindable.
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:particle="clr-namespace:Particle.Maui;assembly=Particle.Maui"
-             x:Class="Particle.Maui.Sample.Demo2.Demo2"
+             xmlns:particle="clr-namespace:Oxane.Maui.Confetti;assembly=Oxane.Maui.Confetti"
+             x:Class="Oxane.Maui.Confetti.Sample.Demo2.Demo2"
              Title="Custom Particles">
     <ContentPage.Resources>
         <x:Array Type="{x:Type Color}" x:Key="ConfettiColors">
