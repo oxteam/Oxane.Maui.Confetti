@@ -1,5 +1,7 @@
 # Oxane.Maui.Confetti
-A MAUI library to display particles e.g. confetti. Should work on all platforms. Forked from legacy Particle.Maui libray : https://github.com/jmbowman1107/Particle.Maui
+A MAUI library to display particles e.g. confetti. Should work on all platforms.
+Uses the latest versions available to date for its dependencies.
+Forked from legacy Particle.Maui library : https://github.com/jmbowman1107/Particle.Maui
 
 Get it from NuGet [![Nuget](https://img.shields.io/nuget/vpre/oxane.maui.confetti)](https://www.nuget.org/packages/oxane.maui.confetti/)
 
