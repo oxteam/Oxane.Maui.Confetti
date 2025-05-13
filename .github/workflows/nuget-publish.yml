@@ -31,11 +31,14 @@ jobs:
         run: dotnet pack ./src/Oxane.Maui.Confetti/Oxane.Maui.Confetti.csproj --configuration Release --output ./nupkg
 
       - name: Publish NuGet Package
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: dotnet nuget push ./nupkg/*.nupkg \
-                   --source https://api.nuget.org/v3/index.json \
-                   --api-key $NUGET_API_KEY
+              --source https://api.nuget.org/v3/index.json \
+              --api-key ${{ secrets.NUGET_API_KEY }}
+      
+      - name: Publish to GitHub Packages
+        run: dotnet nuget push ./nupkg/*.nupkg \
+              --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+              --api-key ${{ secrets.GITHUB_TOKEN }}
 
       - name: Clean package folder
         if: always()
