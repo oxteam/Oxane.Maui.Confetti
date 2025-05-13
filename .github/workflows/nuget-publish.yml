@@ -1,0 +1,44 @@
+name: Build and Publish .NET NuGet Package
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/Oxane.Maui.Confetti/**'
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore ./src/Oxane.Maui.Confetti/Oxane.Maui.Confetti.sln
+
+      - name: Build solution
+        run: dotnet build ./src/Oxane.Maui.Confetti/Oxane.Maui.Confetti.sln --no-restore --configuration Release
+
+      - name: Pack NuGet Package
+        run: dotnet pack ./src/Oxane.Maui.Confetti/Oxane.Maui.Confetti.csproj --configuration Release --output ./nupkg
+
+      - name: Publish NuGet Package
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push ./nupkg/*.nupkg \
+                   --source https://api.nuget.org/v3/index.json \
+                   --api-key $NUGET_API_KEY
+
+      - name: Clean package folder
+        if: always()
+        run: |
+          echo "Cleaning package folder..."
+          rm -rf ./nupkg/*
